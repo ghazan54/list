@@ -209,6 +209,22 @@ public:
         ++size_;
     }
 
+    iterator erase(iterator pos)
+    {
+        if (size() == 1) {
+            clear();
+            return iterator(head_);
+        }
+
+        auto node = pos.node_;
+        node->prev_->next_ = node->next_;
+        node->next_->prev_ = node->prev_;
+        auto next = node->next_;
+        delete node;
+        --size_;
+        return iterator(next);
+    }
+
     reference front() const noexcept { return head_->data_; }
 
     reference back() const noexcept { return tail_->data_; }
